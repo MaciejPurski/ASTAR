@@ -1,24 +1,23 @@
 import scala.collection.immutable.Map
 
-case class VertexID(id: Int)
-case class Vertex(edgesList: List[Edge], heuristicMap: Map[VertexID, Int])
-case class Edge(to: VertexID, distance: Int)
+case class Vertex[VertexID,DistanceType](edgesList: List[Edge[VertexID, DistanceType]], heuristicMap: Map[VertexID, DistanceType])
+case class Edge[VertexID,DistanceType](to: VertexID, distance: DistanceType)
 
-class Graph(vertices: Map[VertexID, Vertex]) {
-  def addVertex(vertexID: VertexID) = new Graph(vertices + (vertexID -> new Vertex(List(), Map())))
-  def showVertices = for (v <- vertices) println(v._1.id)
-  def addEdge(from: VertexID, to: VertexID, distance: Int) =
-    new Graph(vertices + (from -> Vertex((vertices(from).edgesList :+ new Edge(to, distance)), Map())))
+class Graph[VertexID,DistanceType](vertices: Map[VertexID, Vertex[VertexID, DistanceType]]) {
+  def addVertex(vertexID: VertexID) = new Graph[VertexID, DistanceType](vertices + (vertexID -> new Vertex[VertexID, DistanceType](List(), Map())))
+  def showVertices = for (v <- vertices) println(v._1)
+  def addEdge(from: VertexID, to: VertexID, distance: DistanceType) =
+    new Graph[VertexID, DistanceType](vertices + (from -> Vertex[VertexID, DistanceType]((vertices(from).edgesList :+ new Edge[VertexID, DistanceType](to, distance)), Map())))
   def showEdges = for (
     v <- vertices;
     e <- v._2.edgesList
-  ) println(v._1.id + " " + e.to.id + " " + e.distance)
-  def addHeur(from: VertexID, to: VertexID, heuristic: Int) =
-    new Graph(vertices + (from -> Vertex((vertices(from).edgesList), vertices(from).heuristicMap + (to -> heuristic))))
+  ) println(v._1 + " " + e.to + " " + e.distance)
+  def addHeur(from: VertexID, to: VertexID, heuristic: DistanceType) =
+    new Graph[VertexID, DistanceType](vertices + (from -> Vertex[VertexID, DistanceType]((vertices(from).edgesList), vertices(from).heuristicMap + (to -> heuristic))))
   def showHeuristics = for (
     v <- vertices;
     h <- v._2.heuristicMap
-  ) println(v._1.id + " " + h._1.id + " " + h._2)
+  ) println(v._1 + " " + h._1 + " " + h._2)
 }
 
 
