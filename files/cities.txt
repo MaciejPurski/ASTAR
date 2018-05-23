@@ -1,0 +1,18 @@
+Vertices
+Gdańsk
+Warszawa
+Kraków
+Wrocław
+Poznań
+Edges
+Gdańsk Warszawa 341
+Warszawa Kraków 299
+Kraków Wrocław 304
+Wrocław Poznań 280
+Poznań Gdańsk 304
+Heuristics
+Gdańsk Kraków 584
+Warszawa Wrocław 341
+Kraków Poznań 403
+Wrocław Gdańsk 486
+Poznań Warszawa 304

@@ -18,6 +18,7 @@ class Graph[VertexID,DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dist
     v <- vertices;
     h <- v._2.heuristicMap
   ) println(v._1 + " " + h._1 + " " + h._2)
+  
 }
 
 
