@@ -3,17 +3,24 @@ import java.nio.charset.CodingErrorAction
 import scala.io.Codec
 
 //TODO Dokumentacja JavaDoc
-//TODO sprawdzamy nadpisanie
-//TODO W przypadku heurystyk sprawdzamy czy heurystyka odwrotna ju¿ istnieje to zg³aszamy b³¹d nawet je¿eli ma dobr¹ wartoœæ
 
 object obj {
+  /**
+   * main function, that creates graph structure out of file
+   * 
+   * @param g graph structure
+   */
   def main(args: Array[String]) {
     var g = new Graph[String, Int](Map())
     readInput
-//    g.showVertices
-//    g.showEdges
-//    g.showHeuristics
-
+    //    g.showVertices
+    //    g.showEdges
+    //    g.showHeuristics
+    /**
+     * Reads input file with UTF-8 encoding
+     * then loads vertices, edges and heuristics into graph stucture
+     * in case of exception prints stack trace
+     */
     def readInput() {
       val decoder = Codec.UTF8.decoder.onMalformedInput(CodingErrorAction.IGNORE)
       val filename = "files/cities.txt";
