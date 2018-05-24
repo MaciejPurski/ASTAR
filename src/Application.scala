@@ -1,29 +1,36 @@
+/**
+ * @author MateuszDorobek
+ * @version 0.1
+ */
+
 import scala.io.Source
 import java.nio.charset.CodingErrorAction
 import scala.io.Codec
 
 //TODO Dokumentacja JavaDoc
-
+/**@object main object that contain main function
+ * 
+ */
 object obj {
   /**
-   * main function, that creates graph structure out of file
+   * @method main function, that creates graph structure out of file
    * 
-   * @param g graph structure
+   * @param args array of arguments given to the program, when runned from console
+   * 
    */
   def main(args: Array[String]) {
     var g = new Graph[String, Int](Map())
-    readInput
-    //    g.showVertices
-    //    g.showEdges
-    //    g.showHeuristics
+    readInput("files/cities.txt")
+    g.showVertices
+    g.showEdges
+    g.showHeuristics
     /**
-     * Reads input file with UTF-8 encoding
+     * @method Reads input file with UTF-8 encoding
      * then loads vertices, edges and heuristics into graph stucture
      * in case of exception prints stack trace
      */
-    def readInput() {
+    def readInput(filename: String) {
       val decoder = Codec.UTF8.decoder.onMalformedInput(CodingErrorAction.IGNORE)
-      val filename = "files/cities.txt";
       val bufferedSource = Source.fromFile(filename)(decoder)
       var readMode = 0; //1 Vertices, 2 Edges, 3 Heuristics
       var lineCtr = 1;
@@ -46,12 +53,5 @@ object obj {
       }
       bufferedSource.close
     }
-
-    //    val ver = g.addVertex("Warszawa").addVertex("P³ock").addVertex("Starachowice")
-    //    val edg = ver.addEdge("Warszawa", "P³ock", 10).addEdge("Starachowice", "P³ock", 15)
-    //    val heur = edg.addHeur("Warszawa", "Starachowice", 20)
-    //    ver.showVertices
-    //    edg.showEdges
-    //    heur.showHeuristics
   }
 }

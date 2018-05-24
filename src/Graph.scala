@@ -1,29 +1,26 @@
 import scala.collection.immutable.Map
 import scala.collection.immutable.List
-/**
- * Vertex structure
- *
- * edges have structure of List, because we will use them in sequential form
- * heuristics have structure of Map, because we will need to have fast access to specific elements very often
+/**@class Vertex structure, where edges have structure of List, 
+ * because we will use them in sequential form and heuristics 
+ * have structure of Map, because we will need to have fast access to specific elements very often
  *
  * @param edgesList list of edges, that have begin in this vertex
  * @param heuristicMap map of all heuristics, that have begin in this vertex
  */
 case class Vertex[VertexID, DistanceType](edgesList: List[Edge[VertexID, DistanceType]], heuristicMap: Map[VertexID, DistanceType])
-/**
- * Edge structure
+/**@class Edge structure
  *
  * @param to ID of ending vertex
  * @param distance distance or weight of edge
  */
 case class Edge[VertexID, DistanceType](to: VertexID, distance: DistanceType)
 /**
- * Graph structure
+ * @class Graph structure
  *
  */
 class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, DistanceType]]) {
   /**
-   * this method returns new graph that contains new vertex
+   * @method this method returns new graph that contains new vertex
    *
    * @param vertexID ID of new vertex, that will be added to graph structure
    * @param lineCtr counter of line, which gave us that specific vertex, will be used in case of exception
@@ -34,7 +31,7 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
     new Graph[VertexID, DistanceType](vertices + (vertexID -> new Vertex[VertexID, DistanceType](List(), Map())))
   }
   /**
-   * this method returns new graph that contains new edge
+   * @method this method returns new graph that contains new edge
    *
    * @param from ID of begin vertex of edge
    * @param to ID of ending vertex of edge
@@ -51,7 +48,7 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
     new Graph[VertexID, DistanceType](vertices + (from -> Vertex[VertexID, DistanceType]((vertices(from).edgesList :+ new Edge[VertexID, DistanceType](to, distance)), Map())))
   }
   /**
-   * this method returns new graph that contains new heuristic
+   * @method this method returns new graph that contains new heuristic
    *
    * @param from ID of begin vertex of heuristic
    * @param to ID of ending vertex of heuristic
@@ -68,14 +65,15 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
     new Graph[VertexID, DistanceType](vertices + (from -> Vertex[VertexID, DistanceType]((vertices(from).edgesList), vertices(from).heuristicMap + (to -> heuristic))))
   }
   /**
-   * if graph has vertex with passed by argument ID function returns true, false otherwise
+   * @method if graph has vertex with passed by argument ID function returns true, false otherwise
    * 
    * @param vertexID ID of vertex, that we need to check if it exist in graph structure
    */
   def findVertex(vertexID: VertexID): Boolean = {
     vertices.contains(vertexID)
   }
-  /** If graph has vertex with passed by argument ID function returns true, false otherwise
+  /** 
+   * @method If graph has vertex with passed by argument ID function returns true, false otherwise
    * 
    * @param from ID of begin vertex, of edge that we need to check if it exist in graph structure
    * @param to  ID of ending vertex, of edge that we need to check if it exist in graph structure
@@ -89,13 +87,13 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
     return false
   }
   /**
-   * this function prints graph vertices on console screen
+   * @method this function prints graph vertices on console screen
    */
   def showVertices = {
     for (v <- vertices) println(v._1)
   }
   /**
-   * this function prints graph edges on console screen
+   * @method this function prints graph edges on console screen
    */
   def showEdges = {
     for (
@@ -104,7 +102,7 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
     ) println(v._1 + " " + e.to + " " + e.distance)
   }
   /**
-   * this function prints graph heuristics on console screen
+   * @method this function prints graph heuristics on console screen
    */
   def showHeuristics = {
     for (
