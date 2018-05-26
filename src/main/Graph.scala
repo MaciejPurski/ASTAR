@@ -144,6 +144,10 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
       h <- v._2.heuristicMap
     ) println(v._1 + " " + h._1 + " " + h._2)
   }
+  
+  def isEmpty: Boolean = {
+    vertices.isEmpty
+  }
 
   /**
    * @method helper function for accessing vertex's heuristic value
