@@ -19,11 +19,13 @@ object obj {
    * 
    */
   def main(args: Array[String]) {
-    var g = new Graph[String, Int](Map())
+    var g = new Graph[String](Map())
+    
     readInput("files/cities.txt")
-    g.showVertices
-    g.showEdges
-    g.showHeuristics
+    //g.showVertices
+    //g.showEdges
+    //g.showHeuristics
+
     /**
      * @method Reads input file with UTF-8 encoding
      * then loads vertices, edges and heuristics into graph stucture
@@ -53,5 +55,11 @@ object obj {
       }
       bufferedSource.close
     }
+    
+        
+    val path = g.shortestPath("Warszawa", "Wrocław")
+    println("Length: " + path.length)
+    for (vertex <-path.visited.reverse)
+      println(vertex)
   }
 }

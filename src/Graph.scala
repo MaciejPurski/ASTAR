@@ -1,5 +1,7 @@
 import scala.collection.immutable.Map
 import scala.collection.immutable.List
+import scala.collection.immutable.SortedSet
+import scala.collection.immutable.List
 
 /**@class Vertex structure, where edges have structure of List, 
  * because we will use them in sequential form and heuristics 
@@ -8,7 +10,7 @@ import scala.collection.immutable.List
  * @param edgesList list of edges, that have begin in this vertex
  * @param heuristicMap map of all heuristics, that have begin in this vertex
  */
-case class Vertex[VertexID, DistanceType](edgesList: List[Edge[VertexID, DistanceType]], heuristicMap: Map[VertexID, DistanceType])
+case class Vertex[VertexID](edgesList: List[Edge[VertexID]], heuristicMap: Map[VertexID, Int])
 
 
 /**@class Edge structure
@@ -16,15 +18,15 @@ case class Vertex[VertexID, DistanceType](edgesList: List[Edge[VertexID, Distanc
  * @param to ID of ending vertex
  * @param distance distance or weight of edge
  */
-case class Edge[VertexID, DistanceType](to: VertexID, distance: DistanceType)
+case class Edge[VertexID](to: VertexID, distance: Int)
 
 
 /**
  * @class Graph structure
  *
  */
-class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, DistanceType]]) {
-  
+class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
+
   /**
    * @method this method returns new graph that contains new vertex
    *
@@ -37,10 +39,10 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
                                         lineCtr + ": \"" + vertexID +
                                         "\" that vertex already exist.")
     
-    new Graph[VertexID, DistanceType](vertices +
-                                      (vertexID -> new Vertex[VertexID, DistanceType](List(), Map())))
+    new Graph[VertexID](vertices +
+                        (vertexID -> new Vertex[VertexID](List(), Map())))
   }
-  
+
   /**
    * @method this method returns new graph that contains new edge
    *
@@ -49,27 +51,27 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
    * @param distance distance or weight of edge
    * @param lineCtr counter of line, which gave us that specific vertex, will be used in case of exception
    */
-  def addEdge(from: VertexID, to: VertexID, distance: DistanceType, lineCtr: Int) = {
+  def addEdge(from: VertexID, to: VertexID, distance: Int, lineCtr: Int) = {
     if (!findVertex(from))
       throw new IllegalArgumentException("addEdge() error at line " +
                                          lineCtr + ": \"" + from +
                                          "\" that vertex does not exist.")
-    
+
     if (!findVertex(to))
       throw new IllegalArgumentException("addEdge() error at line " +
                                          lineCtr + ": \"" + to +
                                          "\" that vertex does not exist.")
-    
+
     if (findEdgeOrHeuristic(from, to))
       throw new IllegalArgumentException("addEdge() error at line " +
                                          lineCtr + ": \"" + from + "\"-->\"" +
                                          to + "\" that edge does exist. You are overwriting it.")
-    
-    new Graph[VertexID, DistanceType](vertices +
-                                      (from -> Vertex[VertexID, DistanceType]((vertices(from).edgesList :+
-                                          new Edge[VertexID, DistanceType](to, distance)), Map())))
+
+    new Graph[VertexID](vertices +
+                       (from -> Vertex[VertexID]((vertices(from).edgesList :+
+                        new Edge[VertexID](to, distance)), Map())))
   }
-  
+
   /**
    * @method this method returns new graph that contains new heuristic
    *
@@ -78,27 +80,27 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
    * @param heuristic value of heuristic
    * @param lineCtr counter of line, which gave us that specific vertex, will be used in case of exception
    */
-  def addHeur(from: VertexID, to: VertexID, heuristic: DistanceType, lineCtr: Int) = {
+  def addHeur(from: VertexID, to: VertexID, heuristic: Int, lineCtr: Int) = {
     if (!findVertex(from))
       throw new IllegalArgumentException("addHeur() error at line " +
                                          lineCtr + ": \"" + from +
                                          "\" that vertex does not exist.")
-    
+
     if (!findVertex(to))
       throw new IllegalArgumentException("addHeur() error at line " + lineCtr +
                                          ": \"" + to + "\" that vertex does not exist.")
-    
+
     if (findEdgeOrHeuristic(from, to))
       throw new IllegalArgumentException("addHeur() error at line " +
                                          lineCtr + ": \"" + from +
                                          "\"<-->\"" + to +
                                          "\" that edge does exist. You are overwriting it.")
-    
-    new Graph[VertexID, DistanceType](vertices +
-                                     (from -> Vertex[VertexID, DistanceType]((vertices(from).edgesList),
-                                      vertices(from).heuristicMap + (to -> heuristic))))
+
+    new Graph[VertexID](vertices +
+                       (from -> Vertex[VertexID]((vertices(from).edgesList),
+                        vertices(from).heuristicMap + (to -> heuristic))))
   }
-  
+
   /**
    * @method if graph has vertex with passed by argument ID function returns true, false otherwise
    * 
@@ -107,7 +109,7 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
   def findVertex(vertexID: VertexID): Boolean = {
     vertices.contains(vertexID)
   }
- 
+
   /** 
    * @method If graph has vertex with passed by argument ID function returns true, false otherwise
    * 
@@ -121,16 +123,17 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
         v._2.heuristicMap.exists(heur => heur._1.equals(to)))) {
         return true
       }
+    
     return false
   }
-  
+
   /**
    * @method this function prints graph vertices on console screen
    */
   def showVertices = {
     for (v <- vertices) println(v._1)
   }
-  
+
   /**
    * @method this function prints graph edges on console screen
    */
@@ -149,5 +152,46 @@ class Graph[VertexID, DistanceType](vertices: Map[VertexID, Vertex[VertexID, Dis
       v <- vertices;
       h <- v._2.heuristicMap
     ) println(v._1 + " " + h._1 + " " + h._2)
+  }
+
+  /**
+   * @method helper function for accessing vertex's heuristic value
+   * 
+   * @param from
+   * @param to
+   */
+  def getVertexHeurstic(from: VertexID, to: VertexID) =  {
+    vertices(from).heuristicMap.getOrElse(to, 0)
+  }
+
+  /**
+   * @class Path represents a graph path as a list of visited vertices
+   */
+   case class Path(visited: List[VertexID], length: Int) {
+     /**
+      * @method evaluate Computes objective function as: costFunction + heursticFunction
+      * 
+      * @param to Destination vertex for a heuristic function
+      */
+      def evaluate(to: VertexID): Int = length + getVertexHeurstic(visited.head, to)
+
+      /**
+       * @method expendNeighbours Returns a list of possible new paths created from an existing one
+       */
+      def expandNeighbours = for (edge <- vertices(visited.head).edgesList if !visited.contains(edge.to))
+                                 yield Path(edge.to +: visited, length + edge.distance) 
+   }
+
+  def shortestPath(from: VertexID, to: VertexID) = {
+    def aStar(paths: List[Path]): Path = {
+      if (paths.head.visited.head == to)
+        paths.head
+      else
+        /* expand the best path, remove current best path and sort the new list */
+        aStar((paths.head.expandNeighbours ++ paths.drop(1))
+               .sortWith(_.evaluate(to) < _.evaluate(to)))
+     }
+
+    aStar(List(Path(List(from), 0)))
   }
 }
