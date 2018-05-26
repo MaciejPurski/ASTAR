@@ -60,10 +60,17 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
       throw new IllegalArgumentException("addEdge() error: " +
                                          from + "\"-->\"" +
                                          to + "\" that edge does exist. You are overwriting it.")
+    
+    if (findEdgeOrHeuristic(to, from))
+      throw new IllegalArgumentException("addEdge() error: " +
+                                         from + "\"-->\"" +
+                                         to + "\" that edge does exist. You are overwriting it.")
 
     new Graph[VertexID](vertices +
                        (from -> Vertex[VertexID]((vertices(from).edgesList :+
-                        new Edge[VertexID](to, distance)), Map())))
+                        new Edge[VertexID](to, distance)), Map())) + 
+                        (to -> Vertex[VertexID]((vertices(to).edgesList :+
+                        new Edge[VertexID](from, distance)), Map())))
   }
 
   /**
@@ -81,11 +88,6 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
     if (!findVertex(to))
       throw new IllegalArgumentException("addHeur() error at line: \"" +
                                           to + "\" that vertex does not exist.")
-
-    if (findEdgeOrHeuristic(from, to))
-      throw new IllegalArgumentException("addHeur() error at line: \"" + from +
-                                         "\"<-->\"" + to +
-                                         "\" that edge does exist. You are overwriting it.")
 
     new Graph[VertexID](vertices +
                        (from -> Vertex[VertexID]((vertices(from).edgesList),
