@@ -59,7 +59,7 @@ object obj {
     }
     
         
-    val path = g.shortestPath("Warszawa", "Wrocław")
+    val path = g.shortestPath("Warszawa", "Wroclaw")
     println("Length: " + path.length)
     for (vertex <-path.visited)
       println(vertex)

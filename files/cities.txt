@@ -1,18 +1,18 @@
 Vertices
-Gdańsk
+Gdansk
 Warszawa
-Kraków
-Wrocław
-Poznań
+Krakow
+Wroclaw
+Poznan
 Edges
-Gdańsk Warszawa 341
-Warszawa Kraków 299
-Kraków Wrocław 304
-Wrocław Poznań 280
-Poznań Gdańsk 304
+Gdansk Warszawa 341
+Warszawa Krakow 299
+Krakow Wroclaw 304
+Wroclaw Poznan 280
+Poznan Gdansk 304
 Heuristics
-Gdańsk Kraków 584
-Warszawa Wrocław 341
-Kraków Poznań 403
-Wrocław Gdańsk 486
-Poznań Warszawa 304
+Gdansk Krakow 584
+Warszawa Wroclaw 341
+Krakow Poznan 403
+Wroclaw Gdansk 486
+Poznan Warszawa 304

@@ -13,15 +13,15 @@ class GraphTest {
   @Test def simpleAStar {
      val g = new Graph[String](Map()).addVertex("Warszawa")
                                     .addVertex("Kielce")
-                                    .addVertex("Kraków")
+                                    .addVertex("Krakow")
                                     .addEdge("Warszawa", "Kielce", 250)
                                     .addEdge("Kielce", "Warszawa", 250)
-                                    .addEdge("Kielce", "Kraków", 150)
-                                    .addEdge("Kraków", "Kielce", 150)
-                                    .addHeur("Warszawa", "Kraków", 350)
-                                    .addHeur("Kraków", "Warszawa", 350)
+                                    .addEdge("Kielce", "Krakow", 150)
+                                    .addEdge("Krakow", "Kielce", 150)
+                                    .addHeur("Warszawa", "Krakow", 350)
+                                    .addHeur("Krakow", "Warszawa", 350)
                                     
-    val path = g.shortestPath("Warszawa", "Kraków")
+    val path = g.shortestPath("Warszawa", "Krakow")
     
     assertEquals(path.length, 400)
   }
@@ -29,18 +29,18 @@ class GraphTest {
   @Test def differentPathsTest {
          val g = new Graph[String](Map()).addVertex("Warszawa")
                                     .addVertex("Kielce")
-                                    .addVertex("Kraków")
+                                    .addVertex("Krakow")
                                     .addVertex("Lublin")
                                     .addEdge("Warszawa", "Kielce", 250)
                                     .addEdge("Kielce", "Warszawa", 250)
-                                    .addEdge("Kielce", "Kraków", 150)
-                                    .addEdge("Kraków", "Kielce", 150)
+                                    .addEdge("Kielce", "Krakow", 150)
+                                    .addEdge("Krakow", "Kielce", 150)
                                     .addEdge("Warszawa", "Lublin", 120)
-                                    .addEdge("Lublin", "Kraków", 300)
-                                    .addHeur("Warszawa", "Kraków", 350)
-                                    .addHeur("Kraków", "Warszawa", 350)
+                                    .addEdge("Lublin", "Krakow", 300)
+                                    .addHeur("Warszawa", "Krakow", 350)
+                                    .addHeur("Krakow", "Warszawa", 350)
                                     
-    val path = g.shortestPath("Warszawa", "Kraków")
+    val path = g.shortestPath("Warszawa", "Krakow")
     
     assertEquals(path.length, 400)
     
