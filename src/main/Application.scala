@@ -10,22 +10,34 @@ import scala.io.Codec
 import scala.io.Codec.decoder2codec
 
 //TODO Dokumentacja JavaDoc
-/**@object main object that contain main function
- * 
+/**
+ * @object main object that contain main function
+ *
  */
 object obj {
- /** main function, that creates graph structure out of file
-   * 
+  /**
+   * main function, that creates graph structure out of file
+   *
    * @param args array of arguments given to the program, when runnned from console
-   * 
+   *
    */
   def main(args: Array[String]) {
-    var g = new Graph[String](Map())
-    
-    readInput("files/cities.txt")
+    if (args.length != 3) {
+      Console.err.println("Usage: astar <input_file_path> <begin_node> <end_node>\n")
+      System.exit(1)
+    }
 
-   /** Reads input file with UTF-8 encoding
-     * 
+    val filePath = args(0)
+    val beginNode = args(1)
+    val endNode = args(2)
+    println("A* algoritm searching shortest path between " + beginNode + " and " + endNode + ".\n");
+
+    var graph = new Graph[String](Map())
+    readInput(filePath)
+
+    /**
+     * Reads input file with UTF-8 encoding
+     *
      * then loads vertices, edges and heuristics into graph structure
      * in case of exception prints stack trace
      */
@@ -41,9 +53,9 @@ object obj {
           else if (line.equals("Heuristics")) readMode = 3;
           else {
             readMode match {
-              case 1 => g = g.addVertex(line)
-              case 2 => g = g.addEdge(line.split("\\s+")(0), line.split("\\s+")(1), line.split("\\s+")(2).toInt)
-              case 3 => g = g.addHeur(line.split("\\s+")(0), line.split("\\s+")(1), line.split("\\s+")(2).toInt)
+              case 1 => graph = graph.addVertex(line)
+              case 2 => graph = graph.addEdge(line.split("\\s+")(0), line.split("\\s+")(1), line.split("\\s+")(2).toInt)
+              case 3 => graph = graph.addHeur(line.split("\\s+")(0), line.split("\\s+")(1), line.split("\\s+")(2).toInt)
             }
           }
           lineCtr += 1
@@ -54,9 +66,10 @@ object obj {
       bufferedSource.close
     }
     
-    val path = g.shortestPath("Warszawa", "Wroclaw")
+      
+    val path = graph.shortestPath(beginNode, endNode)
     println("Length: " + path.length)
-    for (vertex <-path.visited)
+    for (vertex <- path.visited)
       println(vertex)
   }
 }
