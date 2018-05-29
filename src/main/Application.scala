@@ -14,23 +14,19 @@ import scala.io.Codec.decoder2codec
  * 
  */
 object obj {
-  /**
-   * @method main function, that creates graph structure out of file
+ /** main function, that creates graph structure out of file
    * 
-   * @param args array of arguments given to the program, when runned from console
+   * @param args array of arguments given to the program, when runnned from console
    * 
    */
   def main(args: Array[String]) {
     var g = new Graph[String](Map())
     
     readInput("files/cities.txt")
-    //g.showVertices
-    //g.showEdges
-    //g.showHeuristics
 
-    /**
-     * @method Reads input file with UTF-8 encoding
-     * then loads vertices, edges and heuristics into graph stucture
+   /** Reads input file with UTF-8 encoding
+     * 
+     * then loads vertices, edges and heuristics into graph structure
      * in case of exception prints stack trace
      */
     def readInput(filename: String) {
@@ -58,7 +54,6 @@ object obj {
       bufferedSource.close
     }
     
-        
     val path = g.shortestPath("Warszawa", "Wroclaw")
     println("Length: " + path.length)
     for (vertex <-path.visited)

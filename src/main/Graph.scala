@@ -11,12 +11,11 @@ import scala.collection.immutable.Map
  */
 case class Vertex[VertexID](edgesList: List[Edge[VertexID]], heuristicMap: Map[VertexID, Int])
 
-
-/**@class Edge structure
- *
- * @param to ID of ending vertex
- * @param distance distance or weight of edge
- */
+/** @class Edge structure
+  *
+  * @param to ID of ending vertex
+  * @param distance distance or weight of edge
+  */
 case class Edge[VertexID](to: VertexID, distance: Int)
 
 
@@ -26,8 +25,7 @@ case class Edge[VertexID](to: VertexID, distance: Int)
  */
 class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
 
-  /**
-   * @method this method returns new graph that contains new vertex
+  /** Returns new graph that contains new vertex
    *
    * @param vertexID ID of new vertex, that will be added to graph structure
    */
@@ -40,8 +38,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
                         (vertexID -> new Vertex[VertexID](List(), Map())))
   }
 
-  /**
-   * @method this method returns new graph that contains new edge
+ /** Returns new graph that contains new edge
    *
    * @param from ID of begin vertex of edge
    * @param to ID of ending vertex of edge
@@ -74,7 +71,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
   }
 
   /**
-   * @method this method returns new graph that contains new heuristic
+   * @method Returns new graph that contains new heuristic
    *
    * @param from ID of begin vertex of heuristic
    * @param to ID of ending vertex of heuristic
@@ -103,8 +100,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
     vertices.contains(vertexID)
   }
 
-  /** 
-   * @method If graph has vertex with passed by argument ID function returns true, false otherwise
+ /** If graph has vertex with passed by argument ID function returns true, false otherwise
    * 
    * @param from ID of begin vertex, of edge that we need to check if it exist in graph structure
    * @param to  ID of ending vertex, of edge that we need to check if it exist in graph structure
@@ -121,14 +117,14 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
   }
 
   /**
-   * @method this function prints graph vertices on console screen
+   * This function prints graph vertices on console screen
    */
   def showVertices = {
     for (v <- vertices) println(v._1)
   }
 
   /**
-   * @method this function prints graph edges on console screen
+   * This function prints graph edges on console screen
    */
   def showEdges = {
     for (
@@ -138,7 +134,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
   }
  
   /**
-   * @method this function prints graph heuristics on console screen
+   * This function prints graph heuristics on console screen
    */
   def showHeuristics = {
     for (
@@ -152,7 +148,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
   }
 
   /**
-   * @method helper function for accessing vertex's heuristic value
+   * Helper function for accessing vertex's heuristic value
    * 
    * @param from
    * @param to
@@ -166,14 +162,14 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
    */
    case class Path(visited: List[VertexID], length: Int) {
      /**
-      * @method evaluate Computes objective function as: costFunction + heursticFunction
+      * Compute objective function as: costFunction + heursticFunction
       * 
       * @param to Destination vertex for a heuristic function
       */
       def evaluate(to: VertexID): Int = length + getVertexHeurstic(visited.head, to)
 
       /**
-       * @method expendNeighbours Returns a list of possible new paths created from an existing one
+       *  Returns a list of possible new paths created from an existing one
        */
       def expandNeighbours = for (edge <- vertices(visited.head).edgesList if !visited.contains(edge.to))
                                  yield Path(edge.to +: visited, length + edge.distance) 
