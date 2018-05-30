@@ -8,6 +8,8 @@ import scala.io.Source
 import java.nio.charset.CodingErrorAction
 import scala.io.Codec
 import scala.io.Codec.decoder2codec
+import java.nio.file.Files
+import java.nio.file.Paths
 
 //TODO Dokumentacja JavaDoc
 /**
@@ -22,14 +24,19 @@ object obj {
    *
    */
   def main(args: Array[String]) {
-    if (args.length != 3) {
-      Console.err.println("Usage: astar <input_file_path> <begin_node> <end_node>\n")
-      System.exit(1)
+    
+    print("Set input file path: ")
+    val filePath = scala.io.StdIn.readLine()
+    if(Files.notExists(Paths.get(filePath))){
+      System.err.println("File path not exist")     
+    	return
     }
-
-    val filePath = args(0)
-    val beginNode = args(1)
-    val endNode = args(2)
+    print("Begin node label: ")
+    val beginNode = scala.io.StdIn.readLine()
+   
+    print("End node label: ")
+    val endNode = scala.io.StdIn.readLine()
+   
     println("A* algoritm searching shortest path between " + beginNode + " and " + endNode + ".\n");
 
     var graph = new Graph[String](Map())
@@ -37,7 +44,7 @@ object obj {
 
     /**
      * Reads input file with UTF-8 encoding
-     *
+     * 
      * then loads vertices, edges and heuristics into graph structure
      * in case of exception prints stack trace
      */
