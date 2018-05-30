@@ -19,7 +19,7 @@ object obj {
   /**
    * main function, that creates graph structure out of file
    *
-   * @param args array of arguments given to the program, when runnned from console
+   * @param args array of arguments given to the program, when run from console, we don't have any.
    *
    */
   def main(args: Array[String]) {
