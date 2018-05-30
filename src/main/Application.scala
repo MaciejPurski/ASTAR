@@ -9,9 +9,8 @@ import java.nio.charset.CodingErrorAction
 import scala.io.Codec
 import scala.io.Codec.decoder2codec
 
-//TODO Dokumentacja JavaDoc
 /**
- * @object main object that contain main function
+ * main object that contains main function
  *
  */
 object obj {
