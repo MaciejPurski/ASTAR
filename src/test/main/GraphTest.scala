@@ -10,6 +10,11 @@ class GraphTest {
     assertTrue(g.isEmpty)
   }
   
+  @Test def notEmptyonAdd {
+    val g = new Graph[String](Map()).addVertex("Warszawa")
+    assertFalse(g.isEmpty)
+  }
+  
   @Test def simpleAStar {
      val g = new Graph[String](Map()).addVertex("Warszawa")
                                     .addVertex("Kielce")

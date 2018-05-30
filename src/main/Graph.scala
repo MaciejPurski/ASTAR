@@ -2,7 +2,8 @@ package main
 
 import scala.collection.immutable.Map
 
-/**@class Vertex structure, where edges have structure of List, 
+/**
+ * Vertex structure, where edges have structure of List, 
  * because we will use them in sequential form and heuristics 
  * have structure of Map, because we will need to have fast access to specific elements very often
  *
@@ -11,16 +12,16 @@ import scala.collection.immutable.Map
  */
 case class Vertex[VertexID](edgesList: List[Edge[VertexID]], heuristicMap: Map[VertexID, Int])
 
-/** @class Edge structure
+/**
+  * Edge structure
   *
   * @param to ID of ending vertex
   * @param distance distance or weight of edge
   */
 case class Edge[VertexID](to: VertexID, distance: Int)
 
-
 /**
- * @class Graph structure
+ * Graph structure
  *
  */
 class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
@@ -71,7 +72,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
   }
 
   /**
-   * @method Returns new graph that contains new heuristic
+   * Returns new graph that contains new heuristic
    *
    * @param from ID of begin vertex of heuristic
    * @param to ID of ending vertex of heuristic
@@ -92,7 +93,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
   }
 
   /**
-   * @method if graph has vertex with passed by argument ID function returns true, false otherwise
+   * If graph has vertex with passed by argument ID function returns true, false otherwise
    * 
    * @param vertexID ID of vertex, that we need to check if it exist in graph structure
    */
@@ -158,7 +159,7 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
   }
 
   /**
-   * @class Path represents a graph path as a list of visited vertices
+   * Path represents a graph path as a list of visited vertices
    */
    case class Path(visited: List[VertexID], length: Int) {
      /**
@@ -175,6 +176,15 @@ class Graph[VertexID](vertices: Map[VertexID, Vertex[VertexID]]) {
                                  yield Path(edge.to +: visited, length + edge.distance) 
    }
 
+ /**
+   * Performs A* algorithm.
+   *
+   * @param from Source VertexID
+   * @param to destination VertexID
+   *
+   * @return Path object, which consists of a list of visited nodes in reversed order
+   * and a length of the path
+   */
   def shortestPath(from: VertexID, to: VertexID): Path = {
     def aStar(paths: List[Path]): Path = {
       if (paths.head.visited.head == to)

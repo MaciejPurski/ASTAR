@@ -11,9 +11,8 @@ import scala.io.Codec.decoder2codec
 import java.nio.file.Files
 import java.nio.file.Paths
 
-//TODO Dokumentacja JavaDoc
 /**
- * @object main object that contain main function
+ * main object that contains main function
  *
  */
 object obj {
